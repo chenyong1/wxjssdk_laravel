@@ -62,7 +62,7 @@ class Controller extends BaseController
             'addCard',
             'chooseCard',
             'openCard'
-        ], true);
+        ], env('WX_JSSDK_DEBUG', 'false'));
 
         return 'wx.config('. $jsContent .');';
     }
