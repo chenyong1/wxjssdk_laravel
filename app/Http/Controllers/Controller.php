@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use EasyWeChat\Foundation\Application;
 
 class Controller extends BaseController
 {
-    public function index(){
-        return $this->__getJssdkContent();
+    public function index(Request $request){
+        $url = ($request->input('url'));
+        return $this->__getJssdkContent($url);
     }
 
 
-    private function __getJssdkContent(){
+    private function __getJssdkContent($url){
         $options = [
             'app_id'  => env('WX_APPID'),         // AppID
             'secret'  => env('WX_APPSECRET'),     // AppSecret
@@ -22,6 +24,7 @@ class Controller extends BaseController
 
         $app = new Application($options);
         $js = $app['js'];
+        $js->setUrl($url);
 
         $jsContent = $js->config([
             'onMenuShareTimeline',
@@ -61,6 +64,6 @@ class Controller extends BaseController
             'openCard'
         ], true);
 
-        return '<script type="text/javascript" charset="utf-8">wx.config('. $jsContent .');</script>';
+        return 'wx.config('. $jsContent .');';
     }
 }

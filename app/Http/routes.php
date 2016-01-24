@@ -11,4 +11,4 @@
 |
 */
 
-$app->get('/', 'Controller@index');
+$app->get('/getJssdk', 'Controller@index');
